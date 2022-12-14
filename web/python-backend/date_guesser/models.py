@@ -3,14 +3,16 @@ from django.db import models
 # Create your models here.
 
 class Item(models.Model):
-    item = models.CharField(max_length=200, primary_key=True, blank=False) # Combine id/page
-    # page = models.IntegerField(primary_key=True)
+    id = models.CharField(max_length=64, primary_key=True, blank=False) # SHA256 hash of item/page
+    item = models.CharField(max_length=200)
+    page = models.IntegerField(null=True)
+    provider = models.CharField(max_length=200, blank=False)
     date = models.DateField("The (parsed) date this item was created at (e.g. when an illustration was drawn or a photograph was taken).")
     date_raw = models.CharField("The creation date, as stated in the original entry.", max_length=200)
     skip = models.BooleanField("Items with \"skip\" enabled are not used.", default=False)
 
     def __str__(self) -> str:
-        return self.item
+        return self.id
 
 class ImageFormat(models.Model):
     name = models.CharField(max_length=200)
@@ -28,6 +30,8 @@ class Image(models.Model):
         return self.image_id + self.ending if self.ending is not None else ""
 
 class Stats(models.Model):
+    class Meta:
+        verbose_name_plural = "stats"
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
     skips = models.PositiveIntegerField(default=0)
@@ -36,6 +40,8 @@ class Stats(models.Model):
         return f"{self.item}: {self.views}/{self.skips}"
 
 class Guess(models.Model):
+    class Meta:
+        verbose_name_plural = "guesses"
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     guess = models.IntegerField()
     datetime = models.DateTimeField("Time the guess was submitted")

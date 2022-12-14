@@ -1,3 +1,13 @@
 from django.shortcuts import render
 
-# Create your views here.
+def show():
+    """
+    Show an image and let the user guess the appropriate date.
+    """
+    pass
+
+def tell():
+    """
+    Tell the user the answer.
+    """
+    pass

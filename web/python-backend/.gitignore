@@ -1,1 +1,2 @@
-db_access.json
+**/db_access.json
+**/secret_key.json

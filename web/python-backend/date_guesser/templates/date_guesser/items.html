@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+
+</head>
+<body>
+    <ul>
+        {% for item in item_list %}
+            <li>
+                <a href="/guesser/{{ item.id }}/">{{ item.id }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>

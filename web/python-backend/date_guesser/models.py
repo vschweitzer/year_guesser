@@ -25,9 +25,10 @@ class Image(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     image_id = models.CharField(max_length=64, primary_key=True, blank=False)
     format = models.ForeignKey(ImageFormat, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="historical_images")
 
     def __str__(self) -> str:
-        return self.image_id + self.ending if self.ending is not None else ""
+        return self.image_id
 
 class Stats(models.Model):
     class Meta:

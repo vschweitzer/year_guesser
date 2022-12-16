@@ -15,7 +15,11 @@ def show(request, item_id: str):
     """
     Show an image and let the user guess the appropriate date.
     """
-    context = {"item": Item.objects.get(pk=item_id)}
+    item = Item.objects.get(pk=item_id)
+    context = {
+        "item": item,
+        "citation": item.citation_set.filter(style="apa").first(),
+    }
     return render(request, "date_guesser/show.html", context)
 
 def tell(request):

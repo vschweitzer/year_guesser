@@ -1,20 +1,18 @@
-{% load static %}
+
 <!DOCTYPE html>
 
 <head>
-
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'date_guesser/style.css' %}">
 </head>
 
 <body>
     <h1>
         {{ item.id }}
     </h1>
-
-        {% for image in item.image_set.all %}
-            <img src="{{ image.image.url }}" alt="{{ image.image_id }}"/>
-        <!--<img src="{% static 'images/e6e0d81113e584f6ce46938d19058f8d3576461aed1e5270f669c2fede5c3e97.jpeg' %}">-->
-        {% endfor %}
+        <img id="main-image" src="{{ item.image.image.url }}"/>
         <details>
-            {{ item.date }}
+            <b>{{ item.date }}</b><br />
+            Parsed from {{ item.date_raw }}
         </details>
 </body>

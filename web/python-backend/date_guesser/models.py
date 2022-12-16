@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models import UniqueConstraint
+from django.db.models.functions import Lower
+from django.core.files import File
 
 # Create your models here.
 
@@ -14,26 +17,30 @@ class Item(models.Model):
     def __str__(self) -> str:
         return self.id
 
-class ImageFormat(models.Model):
-    name = models.CharField(max_length=200)
-    ending = models.CharField(max_length=50)
+# class ImageFormat(models.Model):
+#     name = models.CharField(max_length=200)
+#     ending = models.CharField(max_length=50)
 
-    def __str__(self) -> str:
-        return self.name
+#     def __str__(self) -> str:
+#         return self.name
 
 class Image(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.OneToOneField(Item, on_delete=models.CASCADE)
     image_id = models.CharField(max_length=64, primary_key=True, blank=False)
-    format = models.ForeignKey(ImageFormat, on_delete=models.CASCADE)
+    #format = models.ForeignKey(ImageFormat, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="historical_images")
 
     def __str__(self) -> str:
         return self.image_id
 
+    def set_image(self, path: str, name: str):
+        self.image.save(name, File(open(path, 'rb')))
+        self.save()
+
 class Stats(models.Model):
     class Meta:
         verbose_name_plural = "stats"
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.OneToOneField(Item, on_delete=models.CASCADE, primary_key=True)
     views = models.PositiveIntegerField(default=0)
     skips = models.PositiveIntegerField(default=0)
 
@@ -52,24 +59,34 @@ class Guess(models.Model):
 
 class Collection(models.Model):
     collection = models.CharField(max_length=200, primary_key=True)
+    items = models.ManyToManyField(Item)
 
     def __str__(self) -> str:
         return self.collection
 
-class CollectionItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+# class CollectionItem(models.Model):
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+#     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
-        return f"{self.collection}/{self.item}"
+#     def __str__(self) -> str:
+#         return f"{self.collection}/{self.item}"
 
 class Citation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    style = models.CharField(max_length=100, primary_key=True)
+    style = models.CharField(max_length=100)
     citation = models.TextField()
 
+    # class Meta:
+    #     constraints = [
+    #         UniqueConstraint( # Make the combination of item/style unique
+    #             Lower("item"),
+    #             Lower("style"),
+    #             name="item_style_unique"
+    #         )
+    #     ]
+
     def __str__(self) -> str:
-        return f"[{self.style}] {self.citation}"
+        return self.item.id + "/" + self.style
 
 class Report(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

@@ -1,18 +1,53 @@
-
 <!DOCTYPE html>
 
 <head>
     {% load static %}
     <link rel="stylesheet" href="{% static 'date_guesser/style.css' %}">
+    <link rel="stylesheet" href="{% static 'date_guesser/box_layout.css' %}">
 </head>
 
 <body>
-    <h1>
-        {{ item.id }}
-    </h1>
-        <img id="main-image" src="{{ item.image.image.url }}"/>
-        <details>
-            <b>{{ item.date }}</b><br />
-            {{ citation.citation }}
-        </details>
+    <main class="flex flex-vertical">
+        <header>
+            <h1 class="heavy upper">
+                Guess the date!
+            </h1>
+            <p>
+                Guess the date an image was taken, or a document was created.
+            </p>
+        </header>
+        
+
+        <div id="letter-box" class="flex content-center">
+            <img id="main-image" src="{{ item.image.image.url }}" />
+        </div>
+        <div id="year-box">
+            {% if is_result %}
+                {% if is_valid %}
+                        <div id="score-box" class="flex content-center">
+                            Off by {{ off_by }} year(s).
+                        </div>
+                        <div class="horizontal-flex flex content-center">
+                            <div id="guessed-year" class="inline-flex flex-grow content-center">
+                                You guessed: {{ guessed_year }}
+                            </div><div id="actual-year" class="inline-flex flex-grow content-center">
+                                Actual year: {{ actual_year }}
+                            </div>
+                        </div>
+                        {{ citation.citation|safe }}
+                
+                {% else %}
+                        Invalid guess: {{ guessed_year }}
+                {% endif %}
+            {% else %}
+            <div id="range-box">
+            
+            </div>
+            <form id="year-form" action="." method="post">
+                {% csrf_token %}
+                {{ year_form }}<input type="submit" class="input-right" value="GUESS!"/>
+            </form>
+            {% endif %}
+        </div>
+    </main>
 </body>

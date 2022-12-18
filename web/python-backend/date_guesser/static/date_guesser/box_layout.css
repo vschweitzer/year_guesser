@@ -1,0 +1,39 @@
+.flex {
+    display: flex;
+    border-color: #000;
+    flex-grow: 1;
+}
+
+.flex * {
+    border-style: solid;
+    border-color: #000;
+}
+
+.inline-flex {
+    display: inline-flex;
+    background-color: #00f;
+}
+
+.flex-vertical {
+    flex-direction: column;
+    border-style: dashed;
+    background-color: #f0f;
+}
+
+.flex-horizontal {
+    flex-direction: row;
+    border-style: double;
+    background-color: #0ff;
+}
+
+.flex-grow {
+    flex: 1;
+}
+
+.content-center {
+    justify-content: center;
+}
+
+/* {
+    font-family: "Comic Sans MS" !important;
+}*/

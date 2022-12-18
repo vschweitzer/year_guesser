@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'date_guesser/style.css' %}">
+</head>
+<body>
+    <main>
+        <h1>
+            Form
+        </h1>
+        <table>
+            <tr>
+                <th>
+                    Key
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+            {% for key, value in form_data.items %}
+            <tr>
+                <td>
+                    {{ key }}
+                </td>
+                <td>
+                    {{ value }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </main>
+</body>

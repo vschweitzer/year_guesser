@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 from django.core.files import File
+from django.db.models import Min, Max
 
 # Create your models here.
 
@@ -16,6 +17,14 @@ class Item(models.Model):
 
     def __str__(self) -> str:
         return self.id
+
+    @classmethod
+    def min_year(cls):
+        return cls.objects.all().aggregate(Min("date"))["date__min"].year
+    
+    @classmethod
+    def max_year(cls):
+        return cls.objects.all().aggregate(Max("date"))["date__max"].year
 
 # class ImageFormat(models.Model):
 #     name = models.CharField(max_length=200)
@@ -52,7 +61,7 @@ class Guess(models.Model):
         verbose_name_plural = "guesses"
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     guess = models.IntegerField()
-    datetime = models.DateTimeField("Time the guess was submitted")
+    datetime = models.DateTimeField("Time the guess was submitted", auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.datetime}: {self.guess}"

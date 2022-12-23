@@ -1,4 +1,6 @@
-from django.shortcuts import render
+import random
+
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import Item
@@ -44,15 +46,6 @@ def show(request, item_id: str):
 
     return render(request, "date_guesser/show.html", context)
 
-def tell(request):
-    """
-    Tell the user the answer.
-    """
-    pass
-
-def accept_guess(request):
-    pass
-
 def show_form(request):
     if request.method == "POST":
         data = request.POST
@@ -65,3 +58,7 @@ def show_form(request):
         "form_data": data
     }
     return render(request, "date_guesser/form_shower.html", context)
+
+def random_image(request):
+    random_item = random.choice(Item.objects.all().filter(skip=False).exclude(date_raw__startswith="Documentation compiled after"))
+    return redirect(random_item)

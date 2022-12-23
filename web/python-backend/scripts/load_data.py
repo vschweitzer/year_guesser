@@ -87,7 +87,7 @@ def add_collection_if_not_exists(collection_id: str):
     else:
         return None
 
-def add_image_if_not_exists(image_id: str, item_key: str, base_dir: str = "./images", ending: str = ".jpeg"):
+def add_image_if_not_exists(image_id: str, item_key: str, base_dir: str = "./images", ending: str = ".jpeg", license: str = "CC0"):
     image_exists: bool = pk_exists(Image, image_id)
     image_path: str = os.path.join(base_dir, image_id + ending)
 
@@ -99,7 +99,8 @@ def add_image_if_not_exists(image_id: str, item_key: str, base_dir: str = "./ima
 
         i = Image(
             item = item,
-            image_id = image_id
+            image_id = image_id,
+            license = license
         )
         i.set_image(path=image_path, name=image_id + ending)
         return i

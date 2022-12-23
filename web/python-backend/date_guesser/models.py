@@ -6,6 +6,13 @@ from django.db.models import Min, Max
 
 # Create your models here.
 
+class License(models.Model):
+    short_name = models.CharField(max_length=100, primary_key=True)
+    long_name = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return f"{self.long_name} ({self.short_name})"
+
 class Item(models.Model):
     id = models.CharField(max_length=64, primary_key=True, blank=False) # SHA256 hash of item/page
     item = models.CharField(max_length=200)
@@ -26,6 +33,9 @@ class Item(models.Model):
     def max_year(cls):
         return cls.objects.all().aggregate(Max("date"))["date__max"].year
 
+    def get_absolute_url(self):
+        return f"{self.id}/"
+
 # class ImageFormat(models.Model):
 #     name = models.CharField(max_length=200)
 #     ending = models.CharField(max_length=50)
@@ -38,6 +48,7 @@ class Image(models.Model):
     image_id = models.CharField(max_length=64, primary_key=True, blank=False)
     #format = models.ForeignKey(ImageFormat, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="historical_images")
+    license = models.ForeignKey(License, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.image_id
@@ -104,3 +115,4 @@ class Report(models.Model):
 
     def __str__(self) -> str:
         return f"{self.datetime}: {self.reason}"
+

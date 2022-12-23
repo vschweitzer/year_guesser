@@ -1,6 +1,10 @@
 :root {
     --main-dark: #000;
     --background: #fff;
+    --light-shade: #c0c0c0;
+    --dark-shade: #303030;
+    --default-font: "Urbanist SemiBold";
+    --heavy-font: "Urbanist Black";
 }
 
 
@@ -9,11 +13,10 @@ body, html {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: "Urbanist SemiBold", sans-serif;
+    font-family: var(--default-font), sans-serif;
     font-size: 20px;
     color: var(--main-dark);
-    /*background-color: var(--background);*/
-    background-color: #0f0;
+    background-color: var(--background);
 }
 
 main {
@@ -50,12 +53,80 @@ header h1 {
     max-height: inherit;
 }
 
+#year-form {
+    /* background-color: #0f0; */
+}
+
+#year-form input, #year-form label, button {
+    height: 3rem;
+    font-size: 1.75rem;
+    text-align: center;
+    font-family: var(--default-font);
+}
+
+#year-box * {
+    /*font-size: 1.5em;*/
+    padding: 0.25em;
+}
+
+#score-box {
+    font-size: 2.5em;
+    padding: 0.25em;
+}
+
+.small-info {
+    /* background-color: var(--main-dark);
+    color: var(--background); */
+    font-size: 0.5em;
+}
+
+.button-wrapper {
+    margin: 0;
+    padding: 0;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+input, .submit {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-decoration: none;
+}
+
+.submit {
+    border-style: none;
+    border-color: var(--main-dark);
+    border-width: 0;
+}
+
+input[type=submit], input[type=button], .submit {
+    background-color: var(--main-dark);
+    color: var(--background);
+    border-style: none;
+    border-style: solid;
+    border-bottom-width: 0.15em;
+    border-color: var(--light-shade);
+    padding: 0.15em;
+}
+
+input[type=submit]:active, input[type=button]:active, .submit:active {
+    border-top-width: 0.15em;
+    border-top-color: var(--dark-shade);
+    border-bottom-width: 0;
+}
+
 .heavy {
-    font-family: "Urbanist Black";
+    font-family: var(--heavy-font) !important;
 }
 
 .upper {
     text-transform: uppercase;
+}
+
+.wide {
+    width: 100%;
 }
 
 * {

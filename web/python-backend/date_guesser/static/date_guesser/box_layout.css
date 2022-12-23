@@ -1,29 +1,29 @@
 .flex {
     display: flex;
-    border-color: #000;
+    /* border-color: #000; */
     flex-grow: 1;
 }
 
 .flex * {
-    border-style: solid;
-    border-color: #000;
+    /* border-style: solid; */
+    /* border-color: #000; */
 }
 
 .inline-flex {
     display: inline-flex;
-    background-color: #00f;
+    /* background-color: #00f; */
 }
 
 .flex-vertical {
     flex-direction: column;
-    border-style: dashed;
-    background-color: #f0f;
+    /* border-style: dashed;
+    background-color: #f0f; */
 }
 
 .flex-horizontal {
     flex-direction: row;
-    border-style: double;
-    background-color: #0ff;
+    /* border-style: double;
+    background-color: #0ff; */
 }
 
 .flex-grow {

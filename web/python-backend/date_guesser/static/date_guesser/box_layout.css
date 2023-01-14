@@ -1,7 +1,7 @@
 .flex {
     display: flex;
     /* border-color: #000; */
-    flex-grow: 1;
+    flex-grow: 0;
 }
 
 .flex * {
@@ -30,6 +30,10 @@
     flex: 1;
 }
 
+.flex-grow-large {
+    flex-grow: 2;
+}
+
 .content-center {
     justify-content: center;
 }
@@ -37,3 +41,8 @@
 /* {
     font-family: "Comic Sans MS" !important;
 }*/
+
+
+* {
+    box-sizing: border-box;
+}

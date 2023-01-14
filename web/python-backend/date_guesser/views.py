@@ -30,7 +30,7 @@ def show(request, item_id: str):
     item = Item.objects.get(pk=item_id)
     context = {
         "item": item,
-        "citation": item.citation_set.filter(style="apa").first(),
+        "citation": item.citation_set.filter(style="apa").first().citation,
         "min_year": Item.min_year(),
         "max_year": Item.max_year(),
         "year_form": year_form,

@@ -11,23 +11,20 @@
                 <h1>
                     Guess the Year!
                 </h1>
-            </header>
-            <img id="main-image" src="{{ item.image.image.url }}" class="dark">
-            
-            <div id="year-box">
+            </header><img id="main-image" src="{{ item.image.image.url }}" class="dark"><div id="year-box">
                 {% if not is_result %}
                 <form class="flex flex-horizontal" method="post" target="_self">
-                    {% csrf_token %}{{ year_form }}<input type="submit" class="flex dark" value="Guess!">
+                    {% csrf_token %}{{ year_form }}<input type="submit" class="dark" value="Guess!">
                 </form>
                 {% else %}
-                <div class="flex flex-grow content-center dark result-box heavy">
+                <div class="flex flex-grow content-center dark result-box heavy big">
                     {% if off_by == 0 %}
                     Perfect!
                     {% else %}
                     Off by {{ off_by }} year{% if off_by != 1 %}s{% endif %}
                     {% endif %}
                 </div>
-                <div class="flex flex-grow flex-horizontal">
+                <div class="flex flex-grow flex-horizontal small">
                     <div class="flex flex-grow content-center result-box">
                         You guessed: {{ guessed_year }}
                     </div>

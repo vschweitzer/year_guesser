@@ -6,8 +6,16 @@ from django.db.models import Min, Max
 
 # Create your models here.
 
+class Provider(models.Model):
+    short_name = models.CharField(max_length=100, blank=False, primary_key=True)
+    long_name = models.CharField(max_length=200, blank=False)
+    url = models.CharField(max_length=512, null=True)
+
+    def __str__(self) -> str:
+        return self.long_name
+
 class License(models.Model):
-    short_name = models.CharField(max_length=100, primary_key=True)
+    short_name = models.CharField(max_length=100, blank=False, primary_key=True)
     long_name = models.CharField(max_length=200)
 
     def __str__(self) -> str:
@@ -17,7 +25,8 @@ class Item(models.Model):
     id = models.CharField(max_length=64, primary_key=True, blank=False) # SHA256 hash of item/page
     item = models.CharField(max_length=200)
     page = models.IntegerField(null=True)
-    provider = models.CharField(max_length=200, blank=False)
+    image_url = models.CharField(max_length=512, null=True)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     date = models.DateField("The (parsed) date this item was created at (e.g. when an illustration was drawn or a photograph was taken).")
     date_raw = models.CharField("The creation date, as stated in the original entry.", max_length=200)
     skip = models.BooleanField("Items with \"skip\" enabled are not used.", default=False)

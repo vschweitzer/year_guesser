@@ -1,0 +1,152 @@
+:root {
+    --main-dark: #000;
+    --background: #fff;
+    --light-shade: #c0c0c0;
+    --dark-shade: #303030;
+    --default-font: "Urbanist SemiBold";
+    --heavy-font: "Urbanist Black";
+    --input-padding: 0.5rem;
+    --active-border-width: 0.2rem;
+}
+
+/* body * {
+    border-style: solid;
+    border-color: var(--light-shade);
+    border-width: 1px;
+} */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+    background-color: var(--background);
+    font-family: var(--default-font);
+}
+
+main {
+    height: 100%;
+    width: 100%;
+    max-width: 50rem;
+    min-height: 30rem;
+    margin: 0 auto;
+    padding: 0;
+}
+
+div,
+form {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+main * {
+    max-width: inherit;
+}
+
+#main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+    background-color: var(--main-dark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--heavy-font);
+}
+
+h1 {
+    font-size: 300%;
+    text-transform: uppercase;
+}
+
+header * {
+    margin: 0;
+}
+
+footer {
+    margin: 0.5rem 0 0 0;
+    border-style: solid none none none;
+    border-width: 0.1rem;
+    padding: 0.5rem 0rem;
+}
+
+footer div {
+    padding: 0 0.5em;
+}
+
+form label,
+form input {
+    display: flex;
+}
+
+form label {
+    background-color: var(--main-dark);
+    color: var(--background);
+}
+
+form input[type=number] {
+    flex-grow: 1;
+}
+
+input,
+label,
+.result-box {
+    padding: var(--input-padding);
+    font-family: var(--default-font);
+    font-size: 1em;
+}
+
+button,
+input[type=submit] {
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    padding: calc(var(--input-padding) - var(--active-border-width));
+    border-width: var(--active-border-width);
+    border-color: var(--main-dark);
+    border-style: solid;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+button:hover,
+input[type=submit]:hover {
+    border-color: var(--background);
+    transition: border-color 0.3s;
+}
+
+button:active,
+input[type=submit]:active {
+    border-color: var(--light-shade);
+    transition: border-color 0.0s;
+}
+
+
+.big {
+    font-size: 1.667em;
+}
+
+.small {
+    font-size: 0.6em;
+}
+
+.tiny {
+    font-size: 0.4em;
+}
+
+.dark {
+    background-color: var(--main-dark);
+    color: var(--background);
+}
+
+.heavy {
+    font-family: var(--heavy-font);
+}

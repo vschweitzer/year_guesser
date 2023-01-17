@@ -39,7 +39,14 @@
             </div>
             <footer class="small flex-horizontal flex">
                 <div id="provided-by" class="flex">
-                    Image provided by
+                    Image provided by&nbsp;
+                    {% if item.provider.url == None %}
+                    {{ item.provider.long_name }}
+                    {% else %}
+                    <a href="{{ item.provider.url }}">
+                        {{ item.provider.long_name }}
+                    </a>
+                    {% endif %}
                 </div>
                 <div class="flex flex-grow content-center small">
                     <span>

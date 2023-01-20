@@ -24,11 +24,28 @@ class License(models.Model):
 class Item(models.Model):
     id = models.CharField(max_length=64, primary_key=True, blank=False) # SHA256 hash of item/page
     item = models.CharField(max_length=200)
-    page = models.IntegerField(null=True)
-    image_url = models.CharField(max_length=512, null=True)
+    page = models.IntegerField(null=True, blank=True)
+    image_url = models.CharField(max_length=512, null=True, blank=True)
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     date = models.DateField("The (parsed) date this item was created at (e.g. when an illustration was drawn or a photograph was taken).")
-    date_raw = models.CharField("The creation date, as stated in the original entry.", max_length=200)
+    date_raw = models.CharField("The creation date, as stated in the original entry.", max_length=200, blank=True, null=True)
+    label = models.CharField("Human readable label.", max_length=200, blank=True, null=True)
+    alt_label = models.CharField("Alternative human readable label.", max_length=200, blank=True, null=True)
+    description = models.CharField("Description of the item.", max_length=500, blank=True, null=True)
+    date_precision = models.IntegerField("Date precision as defined by Wikidata.", choices=[
+        (0, "billion years"),
+        (3, "million years"),
+        (4, "hundred thousand years"),
+        (6, "millennium"),
+        (7, "century"),
+        (8, "decade"),
+        (9, "year"),
+        (10, "month"),
+        (11, "day"),
+        (12, "hour"),
+        (13, "minute"),
+        (14, "second"),
+    ], blank=True, null=True)
     skip = models.BooleanField("Items with \"skip\" enabled are not used.", default=False)
 
     def __str__(self) -> str:

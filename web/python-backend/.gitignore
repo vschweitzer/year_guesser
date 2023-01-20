@@ -1,4 +1,6 @@
 **/db_access.json
 **/secret_key.json
 **/migrations/
+**/wikidata_images/
+**/wikidata_images_old/
 media/historical_images/

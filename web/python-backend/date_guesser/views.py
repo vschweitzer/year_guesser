@@ -1,9 +1,10 @@
 import random
+import datetime
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import Item
+from .models import Item, Guess
 from .forms import YearForm
 
 def items(request):
@@ -23,6 +24,17 @@ def show(request, item_id: str):
     if request.method == "POST":
         is_result = True
         year_form = YearForm(request.POST)
+        is_valid = year_form.is_valid()
+        if is_valid:
+            timestamp: datetime.datetime = datetime.datetime.now()
+            guess: int = year_form.cleaned_data["year_guess"]
+            g = Guess(
+                item = Item.objects.get(pk=item_id),
+                guess = guess,
+                datetime = timestamp
+            )
+            g.save()
+        
     else:
         is_result = False
         year_form = YearForm()

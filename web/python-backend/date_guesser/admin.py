@@ -1,9 +1,19 @@
 from django.contrib import admin
 
-from .models import Item, Image, Collection, Stats, Guess, Report, Citation, License, Provider #, CollectionItem #, ImageFormat, 
+from .models import (
+    Item,
+    Image,
+    Collection,
+    Stats,
+    Guess,
+    Report,
+    Citation,
+    License,
+    Provider,
+)  # , CollectionItem #, ImageFormat,
 
-#admin.site.register(CollectionItem)
-#admin.site.register(ImageFormat)
+# admin.site.register(CollectionItem)
+# admin.site.register(ImageFormat)
 admin.site.register(Citation)
 admin.site.register(Collection)
 admin.site.register(Guess)

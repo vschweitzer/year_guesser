@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from date_guesser.models import Item
 
+
 def change_provider(provider, new_provider):
     try:
         items = Item.objects.all().filter(provider=provider)
@@ -14,6 +15,7 @@ def change_provider(provider, new_provider):
         print(i.id)
         i.provider = new_provider
         i.save()
+
 
 def run():
     change_provider("smithsonian", "loc")

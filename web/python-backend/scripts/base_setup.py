@@ -7,6 +7,7 @@ import os
 from django.core.exceptions import ObjectDoesNotExist
 from date_guesser.models import Provider, License
 
+
 def run():
     providers = [
         {
@@ -18,7 +19,7 @@ def run():
             "short_name": "loc",
             "long_name": "Library of Congress",
             "url": "https://www.loc.gov/",
-        }
+        },
     ]
 
     licenses = [

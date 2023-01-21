@@ -5,7 +5,15 @@ import typing
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
-from date_guesser.models import Item, Stats, Image, Collection, Citation, Provider, License
+from date_guesser.models import (
+    Item,
+    Stats,
+    Image,
+    Collection,
+    Citation,
+    Provider,
+    License,
+)
 from django.db import models
 
 

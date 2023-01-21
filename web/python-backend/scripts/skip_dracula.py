@@ -7,6 +7,7 @@ import os
 from django.core.exceptions import ObjectDoesNotExist
 from date_guesser.models import Item, Citation
 
+
 def skip_dracula():
     try:
         citations = Citation.objects.all().filter(citation__icontains="dracula")
@@ -20,6 +21,7 @@ def skip_dracula():
         print(c.item.id)
         c.item.skip = True
         c.item.save()
+
 
 def run():
     skip_dracula()

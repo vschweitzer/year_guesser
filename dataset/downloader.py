@@ -4,6 +4,7 @@ import json
 import os
 import time
 
+
 class SequentialDownloadHandler:
     save_path: str
     dataset: dict
@@ -20,7 +21,9 @@ class SequentialDownloadHandler:
                 item = item_index.strip("/")
                 for page_index in self.dataset[collection][item_index]:
                     page = int(page_index)
-                    url: str = self.dataset[collection][item_index][page_index]["jpeg"]["url"]
+                    url: str = self.dataset[collection][item_index][page_index]["jpeg"][
+                        "url"
+                    ]
                     self.download(item, page, url)
                     time.sleep(0.01)
 
@@ -37,6 +40,7 @@ class SequentialDownloadHandler:
     def get_id(self, id: str, page: int):
         unhashed: str = id.strip("/") + "/" + str(page)
         return self.hasher(unhashed.encode("utf-8")).hexdigest()
-    
+
+
 if __name__ == "__main__":
     sdh = SequentialDownloadHandler("./images.json")

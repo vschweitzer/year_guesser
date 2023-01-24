@@ -3,6 +3,8 @@ from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 from django.core.files import File
 from django.db.models import Min, Max
+from django.core.exceptions import ObjectDoesNotExist
+import datetime
 
 # Create your models here.
 
@@ -76,11 +78,17 @@ class Item(models.Model):
 
     @classmethod
     def min_year(cls):
-        return cls.objects.all().aggregate(Min("date"))["date__min"].year
+        try:
+            return cls.objects.all().aggregate(Min("date"))["date__min"].year
+        except ObjectDoesNotExist:
+            return 0
 
     @classmethod
     def max_year(cls):
-        return cls.objects.all().aggregate(Max("date"))["date__max"].year
+        try:
+            return cls.objects.all().aggregate(Max("date"))["date__max"].year
+        except ObjectDoesNotExist:
+            return datetime.datetime.now().year
 
     def get_absolute_url(self):
         return f"{self.id}/"
@@ -130,7 +138,7 @@ class Guess(models.Model):
     datetime = models.DateTimeField("Time the guess was submitted", auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.datetime}: {self.guess}"
+        return f"{self.datetime}: Off by {abs(self.guess - self.item.date.year)}"
 
 
 class Collection(models.Model):

@@ -31,31 +31,33 @@ def query_wikidata(offset: int = 0, limit: int = 50):
 
     query = (
         """
-    SELECT DISTINCT ?item ?pic ?itemLabel ?itemDescription ?itemAltLabel ?author ?authorLabel ?idate ?iprecision ?title WHERE {
-    ?item (wdt:P31/(wdt:P279*)) wd:Q125191;
+    SELECT DISTINCT ?item ?pic ?itemLabel ?itemDescription ?itemAltLabel (GROUP_CONCAT(?authorLabel; SEPARATOR = ", ") AS ?authors) ?idate ?iprecision ?title WHERE {
+      SELECT DISTINCT ?item ?pic ?itemLabel ?itemDescription ?itemAltLabel ?authorLabel ?idate ?iprecision ?title WHERE {
+        ?item (wdt:P31/(wdt:P279*)) wd:Q125191;
         wdt:P6216 wd:Q19652;
         wdt:P18 ?pic;
-        wdt:P170 ?author;
-        p:P571 ?inception;
-        wdt:P31 ?isa.
-    OPTIONAL{?item wdt:P1476 ?title}.
-    ?inception psv:P571 ?entry.
-    ?entry wikibase:timeValue ?idate;
+        p:P571 ?inception.
+        OPTIONAL { ?item wdt:P170 ?author_entry. }
+        OPTIONAL { ?item wdt:P1476 ?title. }
+        BIND(COALESCE(?author_entry, "unknown author") AS ?author)
+        ?inception psv:P571 ?entry.
+        ?entry wikibase:timeValue ?idate;
         wikibase:timePrecision ?iprecision.
-    ?item wdt:P6216 wd:Q19652.
-    ?inception rdf:type wikibase:BestRank.
-    OPTIONAL { ?item wdt:P180 ?depicts. }
-    ?item wdt:P180 ?depicts.
-    FILTER(?iprecision >= 9 )
-    FILTER((!(BOUND(?depicts))) || (NOT EXISTS {
+        ?item wdt:P6216 wd:Q19652.
+        ?inception rdf:type wikibase:BestRank.
+        OPTIONAL { ?item wdt:P180 ?depicts. }
+        FILTER(?iprecision >= 9 )
+        FILTER((!(BOUND(?depicts))) || (NOT EXISTS {
         { ?item wdt:P180 wd:Q40446. }
         UNION
         { ?item (wdt:P180/(wdt:P279*)) wd:Q1931388. }
         UNION
         { ?item (wdt:P180/(wdt:P279*)) wd:Q2937981. }
-    }))
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "en,[AUTO_LANGUAGE]". }.
+        }))
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,[AUTO_LANGUAGE]". }
+      }
     }
+    GROUP BY ?item ?pic ?itemLabel ?itemDescription ?itemAltLabel ?idate ?iprecision ?title
     ORDER BY (?item)
     OFFSET """
         + str(offset)
@@ -90,7 +92,7 @@ def apa_date(date: datetime.datetime, precision: int):
 
 
 def get_apa_citation(result: dict):
-    author: str = result["authorLabel"]["value"]
+    author: str = result["authors"]["value"]
     date: str = apa_date(
         parse_date(result["idate"]["value"]), int(result["iprecision"]["value"])
     )

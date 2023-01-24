@@ -4,7 +4,7 @@ import datetime
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import Item, Guess
+from .models import Item, Guess, Stats
 from .forms import YearForm
 
 
@@ -34,6 +34,9 @@ def show(request, item_id: str):
                 item=Item.objects.get(pk=item_id), guess=guess, datetime=timestamp
             )
             g.save()
+            stats = Stats.objects.get(pk=item_id)
+            stats.views += 1
+            stats.save()
 
     else:
         is_result = False
